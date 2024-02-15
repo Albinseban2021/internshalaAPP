@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:internshala/addCity.dart';
+import 'package:internshala/checkBoxList.dart';
 
 class FilterScreen extends StatefulWidget {
   @override
@@ -20,6 +20,17 @@ class _FilterScreenState extends State<FilterScreen> {
           ElevatedButton.icon(
             onPressed: () {
               // Add your add profile logic here
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CheckBoxList(
+                        items: [
+                          'Administrator',
+                          'Android Development',
+                          'Buisness Analyst',
+                          'Brand Management',
+                          'Product Management'
+                        ],
+                        title: "Profile",
+                      )));
             },
             icon: const Icon(Icons.add),
             label: const Text('Add profile'),
@@ -27,8 +38,26 @@ class _FilterScreenState extends State<FilterScreen> {
           ElevatedButton.icon(
             onPressed: () {
               // Add your add city logic here
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => CityScreen()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const CheckBoxList(
+                        items: [
+                          'Agartala',
+                          'Agra',
+                          'Ahmedabad',
+                          'Bandra',
+                          'Bengaluru',
+                          'Delhi',
+                          'Gurgaon',
+                          'Lucknow',
+                          'Mumbai',
+                          'Munnar',
+                          'Noida',
+                          'Parbhani',
+                          'Kera',
+                          'Tarn Taran'
+                        ],
+                        title: "City",
+                      )));
             },
             icon: const Icon(Icons.add),
             label: const Text('Add city'),
@@ -69,7 +98,7 @@ class _FilterScreenState extends State<FilterScreen> {
           DropdownButton<int>(
             isExpanded: true,
             value: selectedDuration,
-            hint: Text('Choose Duration'),
+            hint: const Text('Choose Duration'),
             onChanged: (int? newValue) {
               setState(() {
                 selectedDuration = newValue;

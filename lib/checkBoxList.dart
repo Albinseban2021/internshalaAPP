@@ -1,42 +1,44 @@
 import 'package:flutter/material.dart';
 
-class CityScreen extends StatefulWidget {
+class CheckBoxList extends StatefulWidget {
+  final String title;
+  final List<String> items;
+
+  const CheckBoxList({super.key, required this.title, required this.items});
+
   @override
-  _CityScreenState createState() => _CityScreenState();
+  _CheckBoxListState createState() => _CheckBoxListState();
 }
 
-class _CityScreenState extends State<CityScreen> {
+class _CheckBoxListState extends State<CheckBoxList> {
   TextEditingController searchController = TextEditingController();
-  List<String> cities = [
-    'Agartala', 'Agra', 'Ahmedabad', 'Bandra', 'Delhi',
-    'Mumbai', // ... add all cities
-  ];
-  List<String> filteredCities = [];
-  Map<String, bool> selectedCities = {};
+  //List<String> items = ;
+  List<String> filteredItems = [];
+  Map<String, bool> selectedItems = {};
 
   @override
   void initState() {
     super.initState();
-    filteredCities = cities;
-    cities.forEach((city) {
-      selectedCities[city] = false;
+    filteredItems = widget.items;
+    widget.items.forEach((data) {
+      selectedItems[data] = false;
     });
   }
 
   void filterSearchResults(String query) {
     if (query.isEmpty) {
       setState(() {
-        filteredCities = cities;
+        filteredItems = widget.items;
       });
     } else {
       List<String> dummySearchList = [];
-      cities.forEach((item) {
+      widget.items.forEach((item) {
         if (item.toLowerCase().contains(query.toLowerCase())) {
           dummySearchList.add(item);
         }
       });
       setState(() {
-        filteredCities = dummySearchList;
+        filteredItems = dummySearchList;
       });
     }
   }
@@ -45,13 +47,13 @@ class _CityScreenState extends State<CityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('City'),
+        title: Text(widget.title),
         actions: [
           TextButton(
             onPressed: () {
               // Clear all selections
               setState(() {
-                selectedCities.updateAll((key, value) => false);
+                selectedItems.updateAll((key, value) => false);
               });
             },
             child: const Text(
@@ -78,11 +80,11 @@ class _CityScreenState extends State<CityScreen> {
             child: TextField(
               controller: searchController,
               onChanged: filterSearchResults,
-              decoration: const InputDecoration(
-                labelText: "Search city",
-                hintText: "Search city",
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
+              decoration: InputDecoration(
+                labelText: "Search ${widget.title}",
+                hintText: "Search ${widget.title}",
+                prefixIcon: const Icon(Icons.search),
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(25.0)),
                 ),
               ),
@@ -90,15 +92,15 @@ class _CityScreenState extends State<CityScreen> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: filteredCities.length,
+              itemCount: filteredItems.length,
               itemBuilder: (context, index) {
-                String city = filteredCities[index];
+                String data = filteredItems[index];
                 return CheckboxListTile(
-                  title: Text(city),
-                  value: selectedCities[city],
+                  title: Text(data),
+                  value: selectedItems[data],
                   onChanged: (bool? value) {
                     setState(() {
-                      selectedCities[city] = value!;
+                      selectedItems[data] = value!;
                     });
                   },
                 );
