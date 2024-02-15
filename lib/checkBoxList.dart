@@ -63,8 +63,14 @@ class _CheckBoxListState extends State<CheckBoxList> {
           ),
           TextButton(
             onPressed: () {
-              // Apply selections
-              // TODO: Implement apply logic
+              List<String> selectedOptions = [];
+              selectedItems.forEach((key, value) {
+                if (value) {
+                  selectedOptions.add(key);
+                }
+              });
+
+              Navigator.of(context).pop(selectedOptions);
             },
             child: const Text(
               'Apply',
